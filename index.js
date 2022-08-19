@@ -1,9 +1,22 @@
+require('dotenv').config()
 const mongoose = require("mongoose")
 const express = require("express")
 
 const app = express()
 
-const URL = "mongodb+srv://ale:kodemia123@kodemia.bmut7hx.mongodb.net/kodemia"
+// AWS -> keys privadas, keys accesos
+
+// Destructuracion
+// Variables de entorno
+const {
+  DB_USERNAME,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_NAME
+}  = process.env
+
+// URL
+const URL = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}${DB_NAME}`
 
 // Conectando a la base de datos
 mongoose.connect(URL)
