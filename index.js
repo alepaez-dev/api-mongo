@@ -64,7 +64,6 @@ app.post("/koders", async (request, response) => {
   try {
     // Accedemos a la bd -> Promesa
     const koder = await Koder.create(body)
-    console.log("koder", koder)
     response.status(201)
     response.json({
       success: true,
@@ -83,6 +82,39 @@ app.post("/koders", async (request, response) => {
   }
 })
 
+app.get("/koders", async (request, response) => {
+  // Destructurandp
+  const { query } = request
+ console.log("query", query) 
+
+  try {
+    const koders = await Koder.find(query)
+    response.status(200)
+    response.json({
+      success: true,
+      data: {
+        koders
+      }
+    })
+  }catch(error){
+    response.status(400)
+    response.json({
+      success:false,
+      message: error.message
+    })
+  }
+
+})
+
+
+// Quiero filtrar como filtre en compass. modulo, generacion
+// Query params
+
+/**
+ * findByIdAndUpdate 
+ * Endpoint donde le pasen id
+ * Actualizar Koder
+ */ 
 
 // Conectando a la base de datos
 mongoose.connect(URL)
