@@ -106,7 +106,70 @@ app.get("/koders", async (request, response) => {
 
 })
 
+app.get("/koders/:id", async (request, response)=>{
+  console.log("entra")
+  const {  params } = request 
+  try{
+      const koder = await Koder.findById(params.id);
+      if(!koder){
+          response.status(404); 
+          data.success = false;
+      }
+      response.status(200);
+      response.json(data);
+  
+  }catch(error){
+      console.log("error", error)
+      response.status(404)
+      response.json({
+          success: false,
+          message: error.menssage
+      })
+  }
+})
 
+// Actualizar un koder
+app.patch("/koders/:id", async (request, response) => {
+  // Destructurando 
+  const { params, body } = request
+
+  try {
+    const koder = await Koder.findByIdAndUpdate(params.id, body, { returnDocument: "after" })
+  
+    response.json({
+      success: true,
+      data: {
+        koder
+      }
+    })
+  }catch (error) {
+    response.status(400)
+    response.json({
+      success: false,
+      message: error.message
+    })
+  }
+})
+
+// Eliminar un koder
+app.delete("/koders/:id", async (request, response) => {
+  const { params } = request
+
+  try {
+    const koder = await Koder.findByIdAndDelete(params.id)
+    response.json({
+      success: true,
+      message: "El koder fue eliminado"
+    })
+  } catch(error) {
+    response.status(400)
+    response.json({
+      success: false,
+      message: error.message
+    })
+  }
+
+})
 // Quiero filtrar como filtre en compass. modulo, generacion
 // Query params
 
